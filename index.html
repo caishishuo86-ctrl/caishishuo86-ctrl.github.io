@@ -603,7 +603,7 @@ body.variant-arcs .about-me::before{
 @media(max-height:700px) and (min-width:1021px){.spatial-heading h2{font-size:52px}.showcase-details h3{font-size:35px}.showcase-stage{max-height:410px}.showcase-features{margin:8px 0 14px}.showcase-small-note{display:none}.spatial-inner{gap:8px}}
 @media(prefers-reduced-motion:reduce){.rail-camera,.rail-screen{transition:none!important}.spatial-showcase{height:300svh!important}}
 </style>
-<link rel="stylesheet" href="scene-rail.css"><link rel="stylesheet" href="how-build.css"><link rel="stylesheet" href="v15-violet.css">
+<link rel="stylesheet" href="scene-rail.css"><link rel="stylesheet" href="how-build.css"><link rel="stylesheet" href="v15-violet.css"><link rel="stylesheet" href="compatibility.css">
 </head>
 <body class="variant-arcs">
 <main>
@@ -886,10 +886,23 @@ document.querySelectorAll('.work-card').forEach(card=>card.addEventListener('cli
 })();
 
 // About section reveal + restrained portrait parallax.
+// Content is visible by default; reveal animation is an enhancement only.
 const aboutSection=document.querySelector('.about-me');
 if(aboutSection){
-  const aboutObserver=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)aboutSection.classList.add('about-visible')})},{threshold:.15});
-  aboutObserver.observe(aboutSection);
+  if('IntersectionObserver' in window){
+    try{
+      aboutSection.classList.add('about-reveal-ready');
+      const aboutObserver=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{if(e.isIntersecting){aboutSection.classList.add('about-visible');aboutObserver.unobserve(aboutSection)}});
+      },{threshold:.15});
+      aboutObserver.observe(aboutSection);
+    }catch(error){
+      aboutSection.classList.remove('about-reveal-ready');
+      aboutSection.classList.add('about-visible');
+    }
+  }else{
+    aboutSection.classList.add('about-visible');
+  }
   if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
     let aboutFrame=0;
     window.addEventListener('scroll',()=>{if(aboutFrame)return;aboutFrame=requestAnimationFrame(()=>{
