@@ -1,0 +1,64 @@
+/* V12 — Project / Process: scene retirement, physical bridge, and guided journey */
+.spatial-showcase.rail-enabled {height:445svh!important;}
+.spatial-showcase .spatial-inner{will-change:opacity;}
+.relay-bridge{height:215svh;position:relative;isolation:isolate;background:#0e0919;color:#f6e9fa;--bridge-gather:0;--bridge-copy:0;--bridge-exit:0}
+.relay-pin{position:sticky;top:0;height:100svh;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 43% 84%,#30133e 0%,transparent 75%),#0e0919;isolation:isolate}
+.relay-stars{position:absolute;inset:0;opacity:.28;background-image:radial-gradient(circle at 19% 28%,#b893d5 1px,transparent 2px),radial-gradient(circle at 72% 51%,#c3a1db 1px,transparent 2px),radial-gradient(circle at 90% 17%,#c3a1db 1px,transparent 2px);background-size:230px 260px,330px 270px,430px 380px}
+.relay-lines{position:absolute;inset:0;transform:translateY(var(--bridge-shift,0px)) scale(var(--bridge-scale,1));opacity:calc(1 - var(--bridge-exit));will-change:transform,opacity}
+.relay-lines svg{width:100%;height:100%}
+.relay-room-lines{opacity:calc(1 - var(--bridge-gather))}
+.relay-single{stroke-dasharray:1600;stroke-dashoffset:calc(1600 - var(--bridge-gather)*1600)}
+.relay-single-glow{opacity:var(--bridge-gather)}
+.relay-copy{position:absolute;left:50%;top:44%;width:min(1080px,90vw);text-align:center;transform:translate(-50%,var(--bridge-lift,-34%)) scale(var(--bridge-copy-scale,.92));opacity:var(--bridge-copy);pointer-events:none}
+.relay-ordinal{font-size:11px;letter-spacing:.34em;color:#c5a0dd}
+.relay-copy p{margin:18px 0 -5px;font-size:clamp(32px,5vw,83px);font-weight:450;letter-spacing:-.07em;line-height:1}
+.relay-copy strong{display:block;font-size:clamp(42px,7.4vw,117px);font-weight:500;letter-spacing:-.085em;line-height:1.2}
+.relay-copy strong em{font-weight:400;font-style:italic;background:linear-gradient(100deg,#e8b8eb,#d5a5e9,#e7c18b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.relay-caption{display:block;margin-top:12px;color:#d9c6e3;font-size:clamp(13px,1.22vw,18px);letter-spacing:.12em}
+.relay-bottom{position:absolute;bottom:7vh;left:6%;right:6%;display:flex;justify-content:space-between;color:#aa8cb8;font-size:10px;letter-spacing:.18em;opacity:calc(1 - var(--bridge-exit))}
+.relay-track b{color:#eec998}
+/* Fourth page: opening and content now share one deliberately slow journey */
+.how-section{height:530svh;}
+.how-sticky{--journey-enter:0;background:radial-gradient(ellipse 74% 76% at 14% 85%,#301039 0%,transparent 74%),radial-gradient(ellipse 44% 37% at 86% 20%,#1d152c 0%,transparent 78%),#0e0919}
+.how-heading{opacity:var(--journey-enter);transform:translate3d(0,calc(20px * (1 - var(--journey-enter))),0);transition:none}
+.how-rail{transform-origin:center center;will-change:transform;max-height:660px;filter:drop-shadow(0 0 25px #b77cde40)}
+.how-stage{grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);gap:clamp(28px,5.5vw,100px)}
+.how-node .halo{stroke:#e6b9f6;filter:drop-shadow(0 0 9px #c47bfa)}
+.how-node.active .halo{stroke-opacity:.9;transform:scale(1.25)}
+.how-node.active .disc{fill:#d5a1eb;filter:drop-shadow(0 0 8px #ba72ec)}
+.how-step .how-proof{overflow:hidden;border:1px solid #b779d243;border-radius:12px;padding:clamp(23px,2.4vw,35px);background:linear-gradient(132deg,#271832e8,#160f29ee);box-shadow:0 22px 65px #06050c78,0 0 50px #7e3baf0d}
+.how-proof::before{content:'';position:absolute;top:-110px;right:-110px;width:220px;height:220px;background:radial-gradient(circle,#c47be52a,transparent 70%);pointer-events:none}
+.how-track-caption{font-size:11px;color:#bd9fcf}
+.how-step h3{font-size:clamp(52px,5.2vw,94px)}
+.how-description{font-size:clamp(15px,1.09vw,19px);max-width:55ch}
+.how-lead{font-size:clamp(20px,1.65vw,27px)}
+.how-rail-footer{font-size:10px;color:#d8b2e8}
+.proof-meter{display:flex;gap:8px;margin-top:22px;height:4px}.proof-meter span{flex:1;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#b776dd,#eac08a);border-radius:4px}
+.how-step.is-current .proof-meter span{animation:bar-in .48s ease forwards;animation-delay:calc(.12s * var(--p))}
+@keyframes bar-in{to{transform:scaleX(1)}}
+.proof-flow-pulse{height:2px;background:#a877d83a;margin-top:23px;position:relative;overflow:hidden}
+.proof-flow-pulse i{display:block;background:linear-gradient(90deg,transparent,#f4d2ff,transparent);height:100%;width:32%;animation:pulse-flow 2.1s linear infinite}
+@keyframes pulse-flow{from{transform:translateX(-130%)}to{transform:translateX(440%)}}
+.proof-terminal-signal{height:39px;display:flex;align-items:end;gap:6px;margin-top:15px;opacity:.75}
+.proof-terminal-signal i{flex:1;background:linear-gradient(#d29de9,#59346f);height:35%;animation:term-signal 1.4s ease-in-out infinite alternate}
+.proof-terminal-signal i:nth-child(3n){animation-delay:-.8s;height:65%}.proof-terminal-signal i:nth-child(4n){animation-delay:-.3s;height:92%}
+@keyframes term-signal{to{height:85%}}
+.proof-bars{display:grid;gap:11px;margin-top:23px}.proof-bars>div{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:center;font-size:11px;color:#c3abd4}
+.proof-bars i{height:5px;background:#59406270;border-radius:8px;overflow:hidden}.proof-bars b{display:block;width:calc(100% * var(--bar));height:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,#a964df,#edbf85);border-radius:8px}
+.how-step.is-current .proof-bars b{animation:bar-in 1.2s ease .25s forwards}
+@media(max-width:900px){.relay-bridge{height:145svh}.relay-copy{top:46%}.how-section{height:auto}.how-heading{opacity:1;transform:none}.how-rail{transform:none!important}.how-step .how-proof{padding:19px}.how-stage{display:block}}
+@media(max-width:520px){.relay-copy p{font-size:33px}.relay-copy strong{font-size:43px}.relay-caption{font-size:12px;letter-spacing:.04em}.relay-ordinal{font-size:9px}.relay-bottom{font-size:8px}.how-step h3{font-size:clamp(44px,13vw,65px)}}
+@media(prefers-reduced-motion:reduce){.relay-bridge{height:100svh}.relay-copy{opacity:1!important;transform:translate(-50%,-34%)}.relay-room-lines{opacity:.15}.relay-single{stroke-dashoffset:0}.relay-lines{opacity:1;transform:none}.how-section{height:auto!important}.how-heading{opacity:1;transform:none}.proof-meter span,.proof-bars b{transform:scaleX(1)}*,*:before,*:after{animation-duration:.01ms!important}}
+
+/* V12.1 — optical centering: return the two-column journey to the visual middle.
+   The introduction header retains its own space for entry, but the active
+   project station is raised independently, leaving the footer unobstructed. */
+@media (min-width:901px) and (min-height:761px) {
+  .how-stage { position:relative; transform:translate3d(0,clamp(-105px,-9svh,-60px),0); }
+}
+@media (min-width:901px) and (max-height:760px) {
+  .how-stage { position:relative; transform:translate3d(0,-35px,0); }
+}
+@media (max-width:900px), (prefers-reduced-motion:reduce) {
+  .how-stage { transform:none!important; }
+}
