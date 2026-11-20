@@ -78,12 +78,27 @@ function inView(el) {
   return rect.bottom > 0 && rect.top < innerHeight;
 }
 
+function showVideoFallback(scene) {
+  const media = scene.querySelector('.scene-media');
+  const toggle = scene.querySelector('.scene-toggle');
+  media.classList.add('playback-blocked', 'controls-open');
+  toggle.setAttribute('aria-expanded', 'true');
+  toggle.setAttribute('aria-label', '隐藏视频控制');
+}
+
 function syncVideos() {
   videos.forEach((video, i) => {
     const visibleScene = enabled ? i === active && galleryVisible : inView(scenes[i]);
     const permitted = !motion.matches || playRequested.has(i);
     if (visibleScene && permitted && !pauseRequested.has(i) && !document.hidden) {
-      if (video.paused) video.play().catch(() => {});
+      if (video.paused) {
+        try {
+          const result = video.play();
+          if (result && typeof result.catch === 'function') result.catch(() => showVideoFallback(scenes[i]));
+        } catch (error) {
+          showVideoFallback(scenes[i]);
+        }
+      }
     } else if (!video.paused) {
       video.pause();
     }
@@ -221,6 +236,8 @@ scenes.forEach((scene, i) => {
     meter.style.width = duration > 0 ? `${video.currentTime / duration * 100}%` : '0%';
   }
   ['play', 'pause', 'timeupdate', 'loadedmetadata'].forEach(event => video.addEventListener(event, updateControls));
+  video.addEventListener('play', () => scene.querySelector('.scene-media').classList.remove('playback-blocked'));
+  video.addEventListener('error', () => showVideoFallback(scene));
   play.addEventListener('click', () => {
     if (video.paused) {
       playRequested.add(i);
@@ -255,6 +272,7 @@ addEventListener('scroll', measureScroll, {passive: true});
 addEventListener('resize', resize, {passive: true});
 addEventListener('pageshow', resize);
 document.addEventListener('visibilitychange', syncVideos);
-motion.addEventListener('change', resize);
+if (typeof motion.addEventListener === 'function') motion.addEventListener('change', resize);
+else if (typeof motion.addListener === 'function') motion.addListener(resize);
 resize();
 if (document.fonts) document.fonts.ready.then(resize);

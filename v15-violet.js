@@ -22,5 +22,12 @@
  const stars=Array.from({length:115},()=>({x:rand(),y:rand(),r:.2+rand()*1.1,alpha:.17+rand()*.62,phase:rand()*6.283,gold:rand()>.95}));let w=0,h=0,dpr=1,visible=true,running=false;
  function resizeCanvas(){dpr=Math.min(devicePixelRatio||1,2);w=Math.max(1,canvas.clientWidth);h=Math.max(1,canvas.clientHeight);canvas.width=Math.floor(w*dpr);canvas.height=Math.floor(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}
  function draw(t){if(!visible){running=false;return}ctx.clearRect(0,0,w,h);for(const s of stars){const a=s.alpha*(reduced.matches?1:.75+.25*Math.sin(t*.00036+s.phase));const x=s.x*w,y=s.y*h;ctx.beginPath();ctx.arc(x,y,s.r,0,Math.PI*2);ctx.fillStyle=s.gold?`rgba(255,212,169,${a})`:`rgba(238,202,255,${a})`;ctx.fill();if(s.gold){ctx.strokeStyle=`rgba(251,203,240,${a*.32})`;ctx.lineWidth=.65;ctx.beginPath();ctx.moveTo(x-4,y);ctx.lineTo(x+4,y);ctx.moveTo(x,y-4);ctx.lineTo(x,y+4);ctx.stroke()}}if(!reduced.matches)requestAnimationFrame(draw);else running=false}
- resizeCanvas();addEventListener('resize',()=>{resizeCanvas();if(reduced.matches)draw(0)},{passive:true});const io=new IntersectionObserver(entries=>{const was=visible;visible=entries[0]?.isIntersecting??true;if(visible&&!was&&!running){running=true;requestAnimationFrame(draw)}},{rootMargin:'80px'});io.observe(finale);running=true;requestAnimationFrame(draw);
+ resizeCanvas();addEventListener('resize',()=>{resizeCanvas();if(reduced.matches)draw(0)},{passive:true});
+  if('IntersectionObserver' in window){
+    try{
+      const io=new IntersectionObserver(entries=>{const was=visible;visible=entries[0]?.isIntersecting??true;if(visible&&!was&&!running){running=true;requestAnimationFrame(draw)}},{rootMargin:'80px'});
+      io.observe(finale);
+    }catch(error){visible=true;}
+  }else{visible=true;}
+  running=true;requestAnimationFrame(draw);
 })();

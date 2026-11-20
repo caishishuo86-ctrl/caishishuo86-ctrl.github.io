@@ -1,0 +1,49 @@
+/* V15.2.1 compatibility layer — content-first fallbacks, original visual design retained. */
+
+/* About: content is visible unless the reveal observer successfully opts into animation. */
+.about-me .about-image-area,
+.about-me .about-copy {
+  opacity: 1;
+  transform: none;
+}
+.about-me.about-reveal-ready:not(.about-visible) .about-image-area,
+.about-me.about-reveal-ready:not(.about-visible) .about-copy {
+  opacity: 0;
+  transform: translateY(35px);
+}
+.about-me.about-visible .about-image-area,
+.about-me.about-visible .about-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-me .about-image-area,
+  .about-me .about-copy {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* If autoplay is denied or a video cannot be decoded, expose the existing controls. */
+.scene-media.playback-blocked .showcase-video-controls {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.scene-media.playback-blocked .scene-toggle {
+  opacity: 1 !important;
+}
+
+/* Keep the poster visible as a useful still-image fallback while video loads/fails. */
+.scene-media .rail-bezel video {
+  background-color: #141027;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* Viewport-unit fallback for browsers without the newer svh unit. */
+.finale { min-height: 100vh; }
+@supports (min-height: 100svh) {
+  .finale { min-height: 100svh; }
+}
